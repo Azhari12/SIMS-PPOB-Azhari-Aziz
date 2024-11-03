@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ServiceListSkeleton = () => {
 	return (
@@ -26,6 +27,8 @@ const ServiceListSkeleton = () => {
 };
 
 const ServiceListOverview = () => {
+	const navigate = useNavigate();
+
 	const services = useSelector((state: RootState) => state.services.services);
 	const dispatch = useDispatch<AppDispatch>();
 
@@ -46,6 +49,7 @@ const ServiceListOverview = () => {
 						return (
 							<div
 								key={item.service_name}
+								onClick={() => navigate(`/purchase/${item.service_code}`)}
 								className="flex flex-col items-center gap-1 cursor-pointer"
 							>
 								<img

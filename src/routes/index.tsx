@@ -6,6 +6,9 @@ import TopUpPage from "@/pages/top-up";
 import GuestLayout from "@/layouts/guest-layout";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/registrasi";
+import PurchasePage from "@/pages/purchase";
+import NotFoundPage from "@/pages/not-found";
+import TransactionPage from "@/pages/transaction";
 
 export const router = createBrowserRouter([
 	{
@@ -34,6 +37,12 @@ export const router = createBrowserRouter([
 		children: [
 			{ index: true, element: <MainPage /> },
 			{ path: "top-up", element: <TopUpPage /> },
+			{ path: "purchase/:code", element: <PurchasePage /> },
+			{ path: "transaction", element: <TransactionPage /> },
 		],
+	},
+	{
+		path: "/*",
+		element: <NotFoundPage />,
 	},
 ]);

@@ -1,12 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { request } from "@/api/axios";
 import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
 import {
 	Form,
 	FormControl,
@@ -21,14 +15,13 @@ import {
 } from "@/helper/currency-formatter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Banknote, Check, X } from "lucide-react";
+import { Banknote } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import logo from "@/assets/Logo.png";
-import { cn } from "@/lib/utils";
 import { useBalanceQuery } from "@/hooks/main-page.hook";
+import ResponseModal from "@/components/modal/response-modal";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
 	amount: z
@@ -47,10 +40,10 @@ const AmountForm = () => {
 	});
 	const { formState } = form;
 
-	const navigate = useNavigate();
 	const balanceQuery = useBalanceQuery({ isEnable: false });
 
 	const [currencyValue, setCurrencyValue] = useState("");
+	const [savedValue, setSavedValue] = useState<number>();
 	const [modal, setModal] = useState(false);
 	const [modalMode, setModalMode] = useState<
 		"confirmation" | "success" | "fail" | ""
@@ -64,10 +57,10 @@ const AmountForm = () => {
 		const payload = {
 			top_up_amount: data.amount,
 		};
-		mutationLogin.mutateAsync(payload);
+		mutationTopUp.mutateAsync(payload);
 	});
 
-	const mutationLogin = useMutation({
+	const mutationTopUp = useMutation({
 		mutationKey: [`topup`],
 		async mutationFn(payload: { top_up_amount: number }) {
 			const [apiPath] = this.mutationKey as [string];
@@ -77,11 +70,14 @@ const AmountForm = () => {
 			const apiResponse = await getMethod();
 			return apiResponse.data;
 		},
-		onError() {
+		onError(error: any) {
+			const { response } = error;
+			toast.error(response.data.message);
 			setModal(true);
 			setModalMode("fail");
 		},
-		onSuccess() {
+		onSuccess(responseData) {
+			toast.success(responseData.message);
 			form.reset();
 			setCurrencyValue("");
 			balanceQuery.refetch();
@@ -95,22 +91,23 @@ const AmountForm = () => {
 		const formattedValue = formatToIndonesianCurrency(value);
 		setCurrencyValue(String(formattedValue));
 		form.setValue("amount", Number(formatCurrencyValue(value)));
+		setSavedValue(Number(formatCurrencyValue(value)));
 	};
 
 	const handleQuickAmount = (amount: number) => {
 		setCurrencyValue(amount.toLocaleString("id-ID"));
 		form.setValue("amount", amount);
+		setSavedValue(amount);
 	};
 
 	const handleModal = (type: "confirmation" | "success" | "fail" | "") => {
 		setModal(true);
 		setModalMode(type);
 	};
-
 	return (
-		<div className="w-full flex gap-8">
+		<div className="w-full flex flex-col md:flex-row gap-8">
 			<Form {...form}>
-				<div className="flex flex-col gap-3 w-2/3">
+				<div className="flex flex-col gap-3 w-full md:w-2/3">
 					<FormField
 						control={form.control}
 						name="amount"
@@ -161,65 +158,14 @@ const AmountForm = () => {
 				})}
 			</div>
 
-			<Dialog open={modal} onOpenChange={setModal}>
-				<DialogHeader>
-					<DialogTitle></DialogTitle>
-					<DialogDescription></DialogDescription>
-				</DialogHeader>
-				<DialogContent className="w-[20rem] flex flex-col justify-center items-center gap-5">
-					{modalMode === "confirmation" ? (
-						<img src={logo} alt="logo" className="w-14 h-14 aspect-square" />
-					) : (
-						<div
-							className={cn(
-								"p-4 rounded-full",
-								modalMode === "success" ? "bg-[#52bd94]" : "bg-primary"
-							)}
-						>
-							{modalMode === "success" ? (
-								<Check size={20} color="white" strokeWidth={3} />
-							) : (
-								<X size={20} color="white" strokeWidth={3} />
-							)}
-						</div>
-					)}
-
-					<div className="space-y-1 text-center">
-						<p>
-							{modalMode === "confirmation"
-								? "Anda yakin Top Up sebesar"
-								: "Top Up Sebesar"}
-						</p>
-						<h4 className="font-semibold">
-							Rp{currencyValue} {modalMode === "confirmation" && " ?"}
-						</h4>
-						{modalMode === "success" ? (
-							<p>berhasil!</p>
-						) : modalMode === "fail" ? (
-							<p>gagal!</p>
-						) : null}
-					</div>
-					<p
-						onClick={() => {
-							if (modalMode === "confirmation") onSubmit();
-							else navigate("/");
-						}}
-						className="mt-3 text-primary font-semibold hover:bg-primary-foreground p-2 rounded-xl cursor-pointer"
-					>
-						{modalMode === "confirmation"
-							? "Ya, lanjutkan Top Up"
-							: "Kembali ke Beranda"}
-					</p>
-					{modalMode === "confirmation" && (
-						<p
-							className="font-semibold text-gray-400 cursor-pointer"
-							onClick={() => setModal(false)}
-						>
-							Batalkan
-						</p>
-					)}
-				</DialogContent>
-			</Dialog>
+			<ResponseModal
+				modal={modal}
+				setModal={setModal}
+				modalMode={modalMode}
+				type="topup"
+				currencyValue={savedValue ?? 0}
+				onSubmit={onSubmit}
+			/>
 		</div>
 	);
 };
