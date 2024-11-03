@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { request } from "@/api/axios";
 import { Button } from "@/components/ui/button";
 import {

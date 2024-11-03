@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Skeleton } from "@/components/ui/skeleton";
 import { useServicesQuery } from "@/hooks/main-page.hook";
 import { ServiceType } from "@/lib/types/services";
@@ -12,7 +13,7 @@ const ServiceListSkeleton = () => {
 		<div className="grid grid-cols-12 gap-5">
 			{Array(12)
 				.fill(0)
-				.map((item, index) => {
+				.map((_item, index) => {
 					return (
 						<div key={index} className="flex flex-col items-center gap-1 rounded-sm">
 							<Skeleton className="w-20 h-20 aspect-square" />
