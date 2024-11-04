@@ -9,6 +9,7 @@ import RegisterPage from "@/pages/auth/registrasi";
 import PurchasePage from "@/pages/purchase";
 import NotFoundPage from "@/pages/not-found";
 import TransactionPage from "@/pages/transaction";
+import AccountPage from "@/pages/account";
 
 export const router = createBrowserRouter([
 	{
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
 			{ path: "top-up", element: <TopUpPage /> },
 			{ path: "purchase/:code", element: <PurchasePage /> },
 			{ path: "transaction", element: <TransactionPage /> },
+			{ path: "akun", element: <AccountPage /> },
 		],
 	},
 	{

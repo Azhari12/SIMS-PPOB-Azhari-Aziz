@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import DummyProfile from "@/assets/Profile Photo.png";
-import BackgroundSaldo from "@/assets/Background Saldo.png";
-import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Skeleton } from "../ui/skeleton";
 import { useBalanceQuery } from "@/hooks/main-page.hook";
+import { ClipLoader } from "react-spinners";
+import { useEffect } from "react";
+
 import { setBalance, setShowBalance } from "@/store/slices/balance-slice";
+import BackgroundSaldo from "@/assets/Background Saldo.png";
+import { ImageChecker } from "@/helper/image-checker";
+import DummyProfile from "@/assets/Profile Photo.png";
+import { Skeleton } from "../ui/skeleton";
 
 const BalanceSkeleton = () => {
 	return (
@@ -25,6 +28,7 @@ const BalanceOverview = () => {
 	const balanceQuery = useBalanceQuery({ isEnable: balance === null });
 	const balanceData = balanceQuery.data?.balance;
 
+	//menghindari fetch ulang
 	useEffect(() => {
 		if (balanceData !== null || balanceData !== undefined)
 			dispatch(setBalance(balanceData));
@@ -52,13 +56,12 @@ const HeaderLayout = () => {
 		<div className="flex flex-col sm:flex-row justify-between sm:h-[11.5rem]">
 			<div className="h-full flex flex-col items-center sm:items-start justify-between">
 				<Avatar className="w-[5rem] h-[5rem] aspect-square">
-					<AvatarImage src={user.profile_image} alt="profile_image" />
+					<AvatarImage
+						src={ImageChecker(user.profile_image) ?? DummyProfile}
+						alt="profile_image"
+					/>
 					<AvatarFallback>
-						<img
-							src={DummyProfile}
-							alt="profile_image"
-							className="w-full aspect-square bg-white"
-						/>
+						<ClipLoader />
 					</AvatarFallback>
 				</Avatar>
 				<div>

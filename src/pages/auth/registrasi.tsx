@@ -87,16 +87,21 @@ const RegisterPage = () => {
 	return (
 		<div className="flex flex-col items-center gap-5">
 			<div className="flex gap-3">
-				<img alt="logo" src={logo} className="object-contain" />
-				<h3 className="font-semibold">SIMS PPOB</h3>
+				<img
+					alt="logo"
+					src={logo}
+					className="object-contain w-5 lg:w-8 aspect-square"
+				/>
+				<h2 className="font-bold text-lg lg:text-2xl">SIMS PPOB</h2>
 			</div>
-			<h2 className="font-medium w-3/4 text-wrap text-center">
+			<h1 className="font-bold text-xl lg:text-4xl w-full lg:w-3/4 text-wrap text-center">
 				Lengkapi data untuk membuat akun
-			</h2>
+			</h1>
+
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(onSubmit)}
-					className="flex flex-col gap-3 w-4/5"
+					className="flex flex-col gap-3 w-full lg:w-4/5"
 				>
 					<FormField
 						control={form.control}
@@ -202,8 +207,7 @@ const RegisterPage = () => {
 					</Button>
 				</form>
 			</Form>
-
-			<p className="text-sm">
+			<p className="text-sm text-gray-500 font-semibold">
 				sudah punya akun? login{" "}
 				<span
 					onClick={() => navigate("/login")}

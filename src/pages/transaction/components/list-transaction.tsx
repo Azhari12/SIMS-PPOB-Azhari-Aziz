@@ -24,9 +24,7 @@ const ListTransactionOverview = () => {
 			queryKey: ["transaction"],
 			queryFn: fetchItems,
 			initialPageParam: 0,
-			getNextPageParam: (lastPage, allPages) => {
-				console.log("allPages", allPages);
-				console.log("lastpage", lastPage);
+			getNextPageParam: (lastPage) => {
 				return lastPage.data.records.length === 5
 					? Number(lastPage.data.offset) + 5
 					: undefined;
