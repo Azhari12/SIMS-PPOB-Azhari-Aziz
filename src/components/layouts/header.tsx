@@ -25,10 +25,11 @@ const BalanceOverview = () => {
 	const balance = useSelector((state: RootState) => state.balance.balance);
 	const dispatch = useDispatch<AppDispatch>();
 
+	//disable fetch jika data sudah disimpan di redux
 	const balanceQuery = useBalanceQuery({ isEnable: balance === null });
 	const balanceData = balanceQuery.data?.balance;
 
-	//menghindari fetch ulang
+	//menyimpan data ke redux kembali jika data di redux kosong
 	useEffect(() => {
 		if (balanceData !== null || balanceData !== undefined)
 			dispatch(setBalance(balanceData));

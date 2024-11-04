@@ -1,6 +1,6 @@
-import HeaderLayout from "@/components/layouts/header";
-import ServiceList from "./main-components/service-list";
 import SliderBanner from "./main-components/slider-banner";
+import ServiceList from "./main-components/service-list";
+import HeaderLayout from "@/components/layouts/header";
 
 const MainPage = () => {
 	return (

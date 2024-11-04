@@ -1,6 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { request } from "@/api/axios";
+import { useForm } from "react-hook-form";
+import { Banknote } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import ResponseModal from "@/components/modal/response-modal";
+import { useBalanceQuery } from "@/hooks/main-page.hook";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { request } from "@/api/axios";
+import {
+	formatCurrencyValue,
+	formatToIndonesianCurrency,
+} from "@/helper/currency-formatter";
 import {
 	Form,
 	FormControl,
@@ -8,20 +23,6 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-	formatCurrencyValue,
-	formatToIndonesianCurrency,
-} from "@/helper/currency-formatter";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { Banknote } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useBalanceQuery } from "@/hooks/main-page.hook";
-import ResponseModal from "@/components/modal/response-modal";
-import { toast } from "sonner";
 
 const FormSchema = z.object({
 	amount: z
@@ -32,15 +33,15 @@ const FormSchema = z.object({
 });
 
 const AmountForm = () => {
+	const balanceQuery = useBalanceQuery({ isEnable: false });
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
 			amount: undefined,
 		},
 	});
-	const { formState } = form;
 
-	const balanceQuery = useBalanceQuery({ isEnable: false });
+	const { formState } = form;
 
 	const [currencyValue, setCurrencyValue] = useState("");
 	const [savedValue, setSavedValue] = useState<number>();
@@ -53,7 +54,6 @@ const AmountForm = () => {
 
 	const onSubmit = form.handleSubmit((data: z.infer<typeof FormSchema>) => {
 		setModal(false);
-		console.log(data);
 		const payload = {
 			top_up_amount: data.amount,
 		};
@@ -104,6 +104,7 @@ const AmountForm = () => {
 		setModal(true);
 		setModalMode(type);
 	};
+
 	return (
 		<div className="w-full flex flex-col md:flex-row gap-8">
 			<Form {...form}>

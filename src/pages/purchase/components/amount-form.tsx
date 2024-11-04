@@ -1,31 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { request } from "@/api/axios";
-import ResponseModal from "@/components/modal/response-modal";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useBalanceQuery } from "@/hooks/main-page.hook";
-import { ServiceType } from "@/lib/types/services";
-import { RootState } from "@/store/store";
-import { useMutation } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 import { Banknote } from "lucide-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "sonner";
+
+import ResponseModal from "@/components/modal/response-modal";
+import { useBalanceQuery } from "@/hooks/main-page.hook";
+import { useMutation } from "@tanstack/react-query";
+import { ServiceType } from "@/lib/types/services";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { RootState } from "@/store/store";
+import { request } from "@/api/axios";
 
 type Props = {
 	item?: ServiceType;
 };
 
 const AmountForm = ({ item }: Props) => {
+	const balance = useSelector((state: RootState) => state.balance.balance);
 	const balanceQuery = useBalanceQuery({ isEnable: false });
 
-	const balance = useSelector((state: RootState) => state.balance.balance);
-
-	const [error, setError] = useState("");
-	const [modal, setModal] = useState(false);
 	const [modalMode, setModalMode] = useState<
 		"confirmation" | "success" | "fail" | ""
 	>("");
+	const [modal, setModal] = useState(false);
+	const [error, setError] = useState("");
 
 	const onSubmit = () => {
 		setModal(false);
@@ -43,10 +43,7 @@ const AmountForm = ({ item }: Props) => {
 		mutationKey: [`transaction`],
 		async mutationFn(payload: { service_code?: string }) {
 			const [apiPath] = this.mutationKey as [string];
-			const getMethod = async () => {
-				return await request.post(apiPath, payload);
-			};
-			const apiResponse = await getMethod();
+			const apiResponse = await request.post(apiPath, payload);
 			return apiResponse.data;
 		},
 		onError(error: any) {

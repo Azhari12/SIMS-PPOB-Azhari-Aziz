@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userSlice from "./slices/user-slice";
-import balanceSlice from "./slices/balance-slice";
+
 import serviceSlice from "./slices/services-slice";
+import balanceSlice from "./slices/balance-slice";
 import bannerSlice from "./slices/banner-slice";
+import userSlice from "./slices/user-slice";
 
 export const store = configureStore({
 	reducer: {

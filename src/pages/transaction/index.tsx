@@ -1,5 +1,5 @@
-import HeaderLayout from "@/components/layouts/header";
 import ListTransaction from "./components/list-transaction";
+import HeaderLayout from "@/components/layouts/header";
 
 const TransactionPage = () => {
 	return (

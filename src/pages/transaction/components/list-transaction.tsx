@@ -1,14 +1,15 @@
-import { request } from "@/api/axios";
-import { Skeleton } from "@/components/ui/skeleton";
-import { TransactionType } from "@/lib/types/transactions";
-import { cn } from "@/lib/utils";
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
-import { Minus, Plus } from "lucide-react";
-import { useMemo } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { BeatLoader } from "react-spinners";
-import { format } from "date-fns";
+import { Minus, Plus } from "lucide-react";
 import { id } from "date-fns/locale";
+import { format } from "date-fns";
+import { useMemo } from "react";
+
+import { TransactionType } from "@/lib/types/transactions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { request } from "@/api/axios";
+import { cn } from "@/lib/utils";
 
 const fetchItems = async ({ pageParam = 0 }) => {
 	const limit = 5; // Limit per page
@@ -32,15 +33,12 @@ const ListTransactionOverview = () => {
 			refetchOnWindowFocus: false,
 			placeholderData: keepPreviousData,
 		});
-	console.log(data);
 	const flatData = useMemo(
 		() =>
 			(data?.pages?.flatMap((page) => page.data.records) as TransactionType[]) ??
 			[],
 		[data]
 	);
-	console.log(flatData, "flatData");
-	console.log(hasNextPage);
 
 	const dateFormatter = (date: string) => {
 		return format(new Date(date), "dd MMMM yyyy", {

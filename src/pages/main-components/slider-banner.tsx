@@ -1,12 +1,13 @@
-import { Skeleton } from "@/components/ui/skeleton";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { ErrorBoundary } from "react-error-boundary";
+import { useEffect, useRef } from "react";
+
 import { useBannerQuery } from "@/hooks/main-page.hook";
-import { BannerType } from "@/lib/types/banner";
 import { setBanner } from "@/store/slices/banner-slice";
 import { AppDispatch, RootState } from "@/store/store";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef } from "react";
-import { ErrorBoundary } from "react-error-boundary";
-import { useDispatch, useSelector } from "react-redux";
+import { Skeleton } from "@/components/ui/skeleton";
+import { BannerType } from "@/lib/types/banner";
 
 const SliderBannerSkeleton = () => {
 	return (
@@ -25,10 +26,9 @@ const SliderBannerSkeleton = () => {
 const SliderBannerOverview = () => {
 	const banner = useSelector((state: RootState) => state.banner.banner);
 	const dispatch = useDispatch<AppDispatch>();
-
+	//disable fetch jika data sudah disimpan di redux
 	const bannerQuery = useBannerQuery({ isEnable: !banner.length });
 	const bannersData = bannerQuery.data?.data as BannerType[];
-
 	const contentRef = useRef<HTMLDivElement | null>(null);
 
 	const scrollLeft = () => {
@@ -49,6 +49,7 @@ const SliderBannerOverview = () => {
 		}
 	};
 
+	//menyimpan data ke redux kembali jika data di redux kosong
 	useEffect(() => {
 		if (bannersData?.length) dispatch(setBanner(bannersData));
 	}, [bannersData]);

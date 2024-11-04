@@ -1,6 +1,7 @@
-import Navbar from "@/components/layouts/navbar";
-import { useProfileSuspenseQuery } from "@/hooks/private.hook";
 import { Outlet } from "react-router-dom";
+
+import { useProfileSuspenseQuery } from "@/hooks/private.hook";
+import Navbar from "@/components/layouts/navbar";
 
 const PrivateLayout = () => {
 	useProfileSuspenseQuery();

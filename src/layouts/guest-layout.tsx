@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+
 import authImage from "@/assets/Illustrasi Login.png";
 
 const GuestLayout = () => {

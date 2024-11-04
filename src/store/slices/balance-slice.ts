@@ -23,7 +23,6 @@ const balanceSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const { setShowBalance } = balanceSlice.actions;
 export const { setBalance } = balanceSlice.actions;
 

@@ -1,7 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AtSign, LockKeyhole, User } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { Input, InputPassword } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { request } from "@/api/axios";
 import logo from "@/assets/Logo.png";
-import { Button } from "@/components/ui/button";
 import {
 	Form,
 	FormControl,
@@ -10,14 +19,6 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input, InputPassword } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { AtSign, LockKeyhole, User } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { z } from "zod";
 
 const FormSchema = z
 	.object({
@@ -53,7 +54,6 @@ const RegisterPage = () => {
 	const { formState } = form;
 
 	const onSubmit = (data: z.infer<typeof FormSchema>) => {
-		console.log(data);
 		const payload = {
 			email: data.email,
 			first_name: data.first_name,
@@ -67,10 +67,7 @@ const RegisterPage = () => {
 		mutationKey: [`registration`],
 		async mutationFn(payload: any) {
 			const [apiPath] = this.mutationKey as [string];
-			const getMethod = async () => {
-				return await request.post(apiPath, payload);
-			};
-			const apiResponse = await getMethod();
+			const apiResponse = await request.post(apiPath, payload);
 			return apiResponse.data;
 		},
 		onError(error: any) {

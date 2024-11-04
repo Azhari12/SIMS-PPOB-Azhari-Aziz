@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { request } from "@/api/axios";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useCallback, useEffect } from "react";
-import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/store/store";
+import { Cookies } from "react-cookie";
+import { toast } from "sonner";
+
 import { setUser } from "@/store/slices/user-slice";
 import { UserType } from "@/lib/types/user";
+import { AppDispatch } from "@/store/store";
+import { request } from "@/api/axios";
 
 export const useClientLogout = () => {
 	const navigate = useNavigate();
@@ -40,6 +41,8 @@ export const useProfileSuspenseQuery = () => {
 		refetchOnWindowFocus: false,
 	});
 
+	// berguna untuk check bahwa apakah user masih memiliki akses terhadap private api dengan me hit profile api
+	// jika tidak memiliki akses user dipaksa untuk logout
 	useEffect(
 		() => {
 			if (profileQuery.data) {

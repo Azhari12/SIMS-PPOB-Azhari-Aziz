@@ -1,5 +1,5 @@
-import { BannerType } from "@/lib/types/banner";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BannerType } from "@/lib/types/banner";
 
 interface BannerState {
 	banner: BannerType[];
@@ -19,7 +19,6 @@ const bannerSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const { setBanner } = bannerSlice.actions;
 
 export default bannerSlice.reducer;

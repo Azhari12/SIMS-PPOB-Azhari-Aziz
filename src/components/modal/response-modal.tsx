@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useNavigate } from "react-router-dom";
+import { Check, X } from "lucide-react";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import logo from "@/assets/Logo.png";
 import { cn } from "@/lib/utils";
-import { Check, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 type Props = {
 	modal: boolean;

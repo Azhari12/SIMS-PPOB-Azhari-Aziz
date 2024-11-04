@@ -1,14 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { AppDispatch, RootState } from "@/store/store";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import DummyProfile from "@/assets/Profile Photo.png";
-import { AtSign, Pencil, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useClientLogout } from "@/hooks/private.hook";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AtSign, Pencil, User } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { ClipLoader } from "react-spinners";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useClientLogout } from "@/hooks/private.hook";
+import { AppDispatch, RootState } from "@/store/store";
+import DummyProfile from "@/assets/Profile Photo.png";
+import { ImageChecker } from "@/helper/image-checker";
+import { setUser } from "@/store/slices/user-slice";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { request } from "@/api/axios";
 import {
 	Form,
 	FormControl,
@@ -17,15 +27,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { request } from "@/api/axios";
-import { toast } from "sonner";
-import { setUser } from "@/store/slices/user-slice";
-import { ImageChecker } from "@/helper/image-checker";
-import { ClipLoader } from "react-spinners";
-import { useMutation } from "@tanstack/react-query";
 
 const FormSchema = z.object({
 	email: z.string().min(1, "email tidak boleh kosong").email({
@@ -36,14 +37,14 @@ const FormSchema = z.object({
 });
 
 const AccountPage = () => {
+	const user = useSelector((state: RootState) => state.user.user);
+	const dispatch = useDispatch<AppDispatch>();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
 	const mode = queryParams.get("mode");
-	const navigate = useNavigate();
-	const user = useSelector((state: RootState) => state.user.user);
-	const dispatch = useDispatch<AppDispatch>();
-	const logout = useClientLogout();
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const logout = useClientLogout();
+	const navigate = useNavigate();
 
 	const [errorFile, setErrorFile] = useState("");
 

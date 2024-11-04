@@ -1,5 +1,5 @@
-import { ServiceType } from "@/lib/types/services";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ServiceType } from "@/lib/types/services";
 
 interface ServicesState {
 	services: ServiceType[];
@@ -19,7 +19,6 @@ const servicesSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const { setServices } = servicesSlice.actions;
 
 export default servicesSlice.reducer;

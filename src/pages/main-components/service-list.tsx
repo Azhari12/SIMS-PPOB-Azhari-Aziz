@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Skeleton } from "@/components/ui/skeleton";
-import { useServicesQuery } from "@/hooks/main-page.hook";
-import { ServiceType } from "@/lib/types/services";
-import { setServices } from "@/store/slices/services-slice";
-import { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { useDispatch, useSelector } from "react-redux";
+import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+import { setServices } from "@/store/slices/services-slice";
+import { useServicesQuery } from "@/hooks/main-page.hook";
+import { AppDispatch, RootState } from "@/store/store";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ServiceType } from "@/lib/types/services";
 
 const ServiceListSkeleton = () => {
 	return (
@@ -27,14 +28,14 @@ const ServiceListSkeleton = () => {
 };
 
 const ServiceListOverview = () => {
-	const navigate = useNavigate();
-
 	const services = useSelector((state: RootState) => state.services.services);
 	const dispatch = useDispatch<AppDispatch>();
-
+	// disable fetch jika data sudah disimpan di redux
 	const servicesQuery = useServicesQuery({ isEnable: !services.length });
 	const servicesData = servicesQuery.data?.data as ServiceType[];
+	const navigate = useNavigate();
 
+	//menyimpan data ke redux kembali jika data di redux kosong
 	useEffect(() => {
 		if (servicesData?.length) dispatch(setServices(servicesData));
 	}, [servicesData]);

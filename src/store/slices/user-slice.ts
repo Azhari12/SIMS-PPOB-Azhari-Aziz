@@ -1,5 +1,5 @@
-import { UserType } from "@/lib/types/user";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserType } from "@/lib/types/user";
 
 interface UserState {
 	user: UserType;
@@ -24,7 +24,6 @@ const userSlice = createSlice({
 	},
 });
 
-// Action creators are generated for each case reducer function
 export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

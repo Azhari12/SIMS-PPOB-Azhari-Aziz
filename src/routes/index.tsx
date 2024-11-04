@@ -1,15 +1,16 @@
-import ErrorBoundary from "@/components/error-boundary";
 import { createBrowserRouter } from "react-router-dom";
+
+import ErrorBoundary from "@/components/error-boundary";
 import { GuestRoute, PrivateRoute } from "./midleware";
-import MainPage from "@/pages";
-import TopUpPage from "@/pages/top-up";
-import GuestLayout from "@/layouts/guest-layout";
-import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/registrasi";
-import PurchasePage from "@/pages/purchase";
-import NotFoundPage from "@/pages/not-found";
 import TransactionPage from "@/pages/transaction";
+import GuestLayout from "@/layouts/guest-layout";
+import NotFoundPage from "@/pages/not-found";
+import PurchasePage from "@/pages/purchase";
+import LoginPage from "@/pages/auth/login";
 import AccountPage from "@/pages/account";
+import TopUpPage from "@/pages/top-up";
+import MainPage from "@/pages";
 
 export const router = createBrowserRouter([
 	{

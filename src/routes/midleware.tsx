@@ -1,8 +1,9 @@
-import { getAccessToken } from "@/auth";
+import { Navigate, Outlet } from "react-router-dom";
+import { Suspense } from "react";
+
 import ScreenLoader from "@/components/loader/screen-loader";
 import PrivateLayout from "@/layouts/private-layout";
-import { Suspense } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { getAccessToken } from "@/auth";
 
 const PrivateRoute = () => {
 	if (!getAccessToken()) return <Navigate to="/login" />;

@@ -1,11 +1,12 @@
-import HeaderLayout from "@/components/layouts/header";
-import { useServicesQuery } from "@/hooks/main-page.hook";
-import { ServiceType } from "@/lib/types/services";
-import { setServices } from "@/store/slices/services-slice";
-import { AppDispatch, RootState } from "@/store/store";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+
+import { setServices } from "@/store/slices/services-slice";
+import { useServicesQuery } from "@/hooks/main-page.hook";
+import HeaderLayout from "@/components/layouts/header";
+import { AppDispatch, RootState } from "@/store/store";
+import { ServiceType } from "@/lib/types/services";
 import AmountForm from "./components/amount-form";
 
 const PurchasePage = () => {
@@ -13,10 +14,10 @@ const PurchasePage = () => {
 
 	const services = useSelector((state: RootState) => state.services.services);
 	const dispatch = useDispatch<AppDispatch>();
-
+	// disable fetch jika data sudah disimpan di redux
 	const servicesQuery = useServicesQuery({ isEnable: !services.length });
 	const servicesData = servicesQuery.data?.data as ServiceType[];
-
+	// mengambil data dari array berdasarkan code yang didapat dari param
 	const item = services.find((item) => item.service_code === code);
 
 	useEffect(() => {
