@@ -3,7 +3,7 @@
 
 ## 📑 About the Project
 
-This app, a product listing platform with a wishlist feature, is a skill test from Bobobox 
+This project is part of an assignment to demonstrate skills in front-end development as a candidate for the Front-End Programmer position at Nutech Integration. The application is designed to showcase proficiency in creating responsive, user-friendly interfaces, integrating APIs, and implementing best practices in React and modern front-end development.
 ## 🌐 Deployment
 - [Vercel](https://sims-ppob-azhari-aziz.vercel.app/)
 
