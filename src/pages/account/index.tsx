@@ -81,6 +81,7 @@ const AccountPage = () => {
 		onSuccess(responseData) {
 			toast.success(responseData.message);
 			dispatch(setUser(responseData.data));
+			navigate("/akun");
 		},
 	});
 

@@ -83,9 +83,12 @@ const HeaderLayout = () => {
 						<div className="flex items-center gap-2">
 							{Array(7)
 								.fill(0)
-								.map(() => {
+								.map((_item, index) => {
 									return (
-										<div className="rounded-full bg-white w-3 h-3 aspect-square"></div>
+										<div
+											key={index}
+											className="rounded-full bg-white w-3 h-3 aspect-square"
+										></div>
 									);
 								})}
 						</div>

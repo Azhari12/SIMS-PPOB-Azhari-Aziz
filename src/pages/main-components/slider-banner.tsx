@@ -14,9 +14,12 @@ const SliderBannerSkeleton = () => {
 		<div className="w-full flex gap-7 overflow-hidden">
 			{Array(4)
 				.fill(0)
-				.map(() => {
+				.map((_item, index) => {
 					return (
-						<Skeleton className="rounded-xl object-cover w-[20rem] h-[8.5rem] " />
+						<Skeleton
+							key={index}
+							className="rounded-xl object-cover w-[20rem] h-[8.5rem] "
+						/>
 					);
 				})}
 		</div>

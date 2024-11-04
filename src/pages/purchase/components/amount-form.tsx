@@ -75,7 +75,8 @@ const AmountForm = ({ item }: Props) => {
 						iconLeft={<Banknote size={14} />}
 						filled={item?.service_tariff !== undefined}
 						error={error !== ""}
-						value={item?.service_tariff.toLocaleString("id-ID")}
+						defaultValue={item?.service_tariff.toLocaleString("id-ID")}
+						disabled
 					/>
 					<p className="text-sm text-right text-primary">{error}</p>
 				</div>

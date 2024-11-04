@@ -47,7 +47,7 @@ const ListTransactionOverview = () => {
 	};
 
 	const timeFormatter = (date: string) => {
-		return format(new Date(date), "hh:mm", {
+		return format(new Date(date), "HH:mm", {
 			locale: id,
 		});
 	};
@@ -57,15 +57,18 @@ const ListTransactionOverview = () => {
 			{isLoading ? (
 				Array(4)
 					.fill(0)
-					.map(() => {
-						return <Skeleton className="h-16 rounded-xl" />;
+					.map((_item, index) => {
+						return <Skeleton key={index} className="h-16 rounded-xl" />;
 					})
 			) : !flatData.length ? (
 				<p>Maaf tidak ada history transaksi pada saat ini</p>
 			) : (
 				flatData.map((item) => {
 					return (
-						<div className="p-5 py10 rounded-xl border border-gray-300 flex justify-between items-center">
+						<div
+							key={item.invoice_number}
+							className="p-5 py10 rounded-xl border border-gray-300 flex justify-between items-center"
+						>
 							<div className="space-y-2">
 								<p
 									className={cn(
